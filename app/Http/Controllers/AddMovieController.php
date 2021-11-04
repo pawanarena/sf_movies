@@ -21,9 +21,13 @@ class AddMovieController extends Controller
                 'year'=>$movie[9],
             ];
         }
-        \DB::table('movies')->insert($movies);
+        $insert_data = collect($movies);
+        $chunks = $insert_data->chunk(500);
         try {
-            \DB::table('movies')->insert($movies);
+            foreach ($chunks as $chunk)
+            {
+                \DB::table('movies')->insert($chunk->toArray());
+            }
             return response()->json([
                 'message' => 'Successfully inserted',
             ], 201);

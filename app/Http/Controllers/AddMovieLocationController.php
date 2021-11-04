@@ -41,8 +41,13 @@ class AddMovieLocationController extends Controller
                 'lng'=>$lng,
             ];
         }
+        $insert_data = collect($movies_location);
+        $chunks = $insert_data->chunk(500);
         try {
-        \DB::table('movie_location')->insert($movies_location);
+            foreach ($chunks as $chunk)
+            {
+                \DB::table('movie_location')->insert($chunk->toArray());
+            }
         return response()->json([
             'message' => 'Successfully inserted',
         ], 201);
