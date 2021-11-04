@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Movies;
 
 class AddMovieController extends Controller
 {
@@ -13,6 +14,10 @@ class AddMovieController extends Controller
     }
 
     public function loadMovieData(){
+        $data=Movies::get();
+        if(!$data->isEmpty()){
+            return 'Data alredy Exits';
+        }
         $movie_url=\file_get_contents($this->movie_url);
         $movie_url=json_decode($movie_url);
         foreach($movie_url->data as $movie){

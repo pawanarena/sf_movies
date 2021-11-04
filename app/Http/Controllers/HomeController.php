@@ -16,13 +16,15 @@ class HomeController extends Controller
 
     public function index(Request $request){
         $movie_input=$request->movie;
-        $data=Movieslocation::with('movies')->whereHas('movies', function($q) use($movie_input){
-            $q->where('movie_title', $movie_input);
-        })->get();
-        foreach($data as $data){
-            $result[] =['location'=> $data->location, 'fun_fact'=>$data->fun_facts, 'lat'=>$data->lat, 'lng'=>$data->lng];
+        if($movie_input){
+            $data=Movieslocation::with('movies')->whereHas('movies', function($q) use($movie_input){
+                $q->where('movie_title', $movie_input);
+            })->get();
+            foreach($data as $data){
+                $result[] =['location'=> $data->location, 'fun_fact'=>$data->fun_facts, 'lat'=>$data->lat, 'lng'=>$data->lng];
+            }
+            return $result;
         }
-        return $result;
     }
 
 

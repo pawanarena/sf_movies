@@ -25,6 +25,6 @@ jQuery is used to handle the AJAX requests, to update the DOM, and jQuery UI is 
 
 *What's Next:*
 - Move the autocomplete to the server side, so that the functionality would accommodate any movie additions without maintaining a list in the main.js file
-- Improve performance of geocode service by parsing/cleaning data going into geocode API.
+-update the data into database while fetching from the api.
 - Improve responsiveness and front end
 - Provide geospacial features (closest film sets, film tour routes)

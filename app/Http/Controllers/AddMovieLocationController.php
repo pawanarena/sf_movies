@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Movieslocation;
 
 class AddMovieLocationController extends Controller
 {
@@ -13,6 +14,10 @@ class AddMovieLocationController extends Controller
     }
     
     public function loadMovieLocationData(){
+        $data=Movieslocation::get();
+        if(!$data->isEmpty()){
+            return 'Data alredy Exits';
+        }
         $movie_url=\file_get_contents($this->movie_url);
         $movie_url=json_decode($movie_url);
         foreach($movie_url->data as $key=>$movie){
@@ -41,6 +46,10 @@ class AddMovieLocationController extends Controller
                 'lng'=>$lng,
             ];
         }
+        do {
+            $deleted = \DB::table('movie_location')->limit(1000)->delete();
+            sleep(2);
+        } while ($deleted > 0);
         $insert_data = collect($movies_location);
         $chunks = $insert_data->chunk(500);
         try {
